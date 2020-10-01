@@ -1,0 +1,38 @@
+server:
+  port: 20000
+spring:
+  application:
+    name: mo-generator
+  datasource:
+    #数据库链接信息，暂时只支持mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: root
+    password: 612820Mm@
+    url: jdbc:mysql://localhost:3306/mo_fast?serverTimezone=GMT%2B8
+  #freemarker配置
+  freemarker:
+    enabled: true
+    template-loader-path: classpath:/templates/
+
+mo-generator:
+  target:
+    #目标表的，多个表格可用逗号分隔
+    tables: mo_core_sys_user
+    #类名去除表格前缀，不用去除为空
+    remove-prefix: mo_core_
+    #包名
+    packages: wang.momo.moadmin
+    #生成文件输出路径
+    outpath: src\main\java\wang\momo\moadmin
+    #生成页面路径,默认biz文件夹
+    htmlpath: core
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+mo:
+  admin:
+    cacheType: Local
+    title: Mo 快速开发平台

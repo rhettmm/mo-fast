@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Comp34 atible" content="IE=edge">
+    <meta content="width=device-width,initial-scale=1.0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+
+    <title th:text="#{mo.admin.title}">MO 快速开发平台</title>
+
+    <link th:href="@{/css/SYSFrame.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/module.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/loaders.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/skin/black/skin.css}" rel="stylesheet" type="text/css" id="skin" />
+    <link th:href="@{/font/iconfont.css}" rel="stylesheet" type="text/css" />
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-treegrid/0.2.0/css/jquery.treegrid.min.css">
+    <!-- 引入validator -->
+    <link href="http://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet" />
+</head>
+<body>
+<div id="container">
+    <div>
+        <form class="form-inline" id="searchBox">
+            <div class="form-group hidden">
+                <label for="search-id">主键ID</label>
+                <input type="text"  class="form-control" id="search-id" name="id" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="search-moAccount">唯一账号</label>
+                <input type="text"  class="form-control" id="search-moAccount" name="moAccount" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="search-moName">用户名</label>
+                <input type="text"  class="form-control" id="search-moName" name="moName" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="search-moNickName">昵称</label>
+                <input type="text"  class="form-control" id="search-moNickName" name="moNickName" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="search-password">密码</label>
+                <input type="text"  class="form-control" id="search-password" name="password" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="search-profilePic">头像</label>
+                <input type="text"  class="form-control" id="search-profilePic" name="profilePic" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="search-age">年龄</label>
+                <input type="text"  class="form-control" id="search-age" name="age" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="search-phone">电话</label>
+                <input type="text"  class="form-control" id="search-phone" name="phone" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="search-email">邮箱</label>
+                <input type="text"  class="form-control" id="search-email" name="email" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="search-deleted">是否删除</label>
+                <input type="text"  class="form-control" id="search-deleted" name="deleted" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="createTime" class="col-sm-2 col-xs-2 control-label">创建时间</label>
+                <div  class="input-group date col-sm-4 col-xs-4" id="search-createTime">
+                    <input type='text' class="form-control" name="createTime" />
+                    <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="search-createAccount">创建工号</label>
+                <input type="text"  class="form-control" id="search-createAccount" name="createAccount" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="updateTime" class="col-sm-2 col-xs-2 control-label">修改时间</label>
+                <div  class="input-group date col-sm-4 col-xs-4" id="search-updateTime">
+                    <input type='text' class="form-control" name="updateTime" />
+                    <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="search-updateAccount">修改工号</label>
+                <input type="text"  class="form-control" id="search-updateAccount" name="updateAccount" placeholder="">
+            </div>
+            <button type="button" class="btn btn-success" onclick="sys_user.queryPage()">查询</button>
+            <button type="reset" class="btn btn-success">重置</button>
+        </form>
+        <button class="btn btn-info pull-right" onclick="sys_user.insertSysUser()">新增</button>
+        <button class="btn btn-info pull-right" onclick="sys_user.exportSysUser()">导出</button>
+    </div>
+<!--    <div style="margin-top: 1%">-->
+<!--        <table class="table table-striped" id="mo_core_sys_user"></table>-->
+<!--    </div>-->
+    <div style="margin-top: 1%">
+        <table class="table table-striped" id="mo_core_sys_user1">
+            <thead>
+            <tr>
+                <th data-field="id">[[#{mo.admin.SysUser.id}]]</th>
+                <th data-field="moAccount">[[#{mo.admin.SysUser.moAccount}]]</th>
+                <th data-field="moName">[[#{mo.admin.SysUser.moName}]]</th>
+                <th data-field="moNickName">[[#{mo.admin.SysUser.moNickName}]]</th>
+                <th data-field="password">[[#{mo.admin.SysUser.password}]]</th>
+                <th data-field="profilePic">[[#{mo.admin.SysUser.profilePic}]]</th>
+                <th data-field="age">[[#{mo.admin.SysUser.age}]]</th>
+                <th data-field="phone">[[#{mo.admin.SysUser.phone}]]</th>
+                <th data-field="email">[[#{mo.admin.SysUser.email}]]</th>
+                <th data-field="deleted">[[#{mo.admin.SysUser.deleted}]]</th>
+                <th data-field="createTime">[[#{mo.admin.SysUser.createTime}]]</th>
+                <th data-field="createAccount">[[#{mo.admin.SysUser.createAccount}]]</th>
+                <th data-field="updateTime">[[#{mo.admin.SysUser.updateTime}]]</th>
+                <th data-field="updateAccount">[[#{mo.admin.SysUser.updateAccount}]]</th>
+                <th data-field="">[[#{mo.admin.operation}]]</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+
+    <!--模态框-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="updateModal" style="margin-top: 10%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">新增</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" class="form-horizontal center-block" id="updateForm">
+                        <div class="form-group hidden">
+                            <label for="id" class="col-sm-2 col-xs-2 control-label">主键ID</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="number" class="form-control" id="id" name="id" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="moAccount" class="col-sm-2 col-xs-2 control-label">唯一账号</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="text" class="form-control" id="moAccount" name="moAccount" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="moName" class="col-sm-2 col-xs-2 control-label">用户名</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="text" class="form-control" id="moName" name="moName" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="moNickName" class="col-sm-2 col-xs-2 control-label">昵称</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="text" class="form-control" id="moNickName" name="moNickName" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2 col-xs-2 control-label">密码</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="text" class="form-control" id="password" name="password" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePic" class="col-sm-2 col-xs-2 control-label">头像</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="text" class="form-control" id="profilePic" name="profilePic" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="age" class="col-sm-2 col-xs-2 control-label">年龄</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="number" class="form-control" id="age" name="age" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-2 col-xs-2 control-label">电话</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-2 col-xs-2 control-label">邮箱</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="deleted" class="col-sm-2 col-xs-2 control-label">是否删除</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="number" class="form-control" id="deleted" name="deleted" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="createTime" class="control-label">创建时间</label>
+                            <div  class="input-group date" id="createTime">
+                                <input type='text' class="form-control" name="createTime" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="createAccount" class="col-sm-2 col-xs-2 control-label">创建工号</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="text" class="form-control" id="createAccount" name="createAccount" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateTime" class="control-label">修改时间</label>
+                            <div  class="input-group date" id="updateTime">
+                                <input type='text' class="form-control" name="updateTime" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAccount" class="col-sm-2 col-xs-2 control-label">修改工号</label>
+                            <div  class="col-sm-4 col-xs-4 ">
+                                <input type="text" class="form-control" id="updateAccount" name="updateAccount" placeholder="">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="sys_user.saveSysUser()">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+</body>
+<script th:src="@{/js/jquery-1.9.1.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/jquery.cookie.js}" type="text/javascript"></script>
+<script th:src="@{/js/jquery.nicescroll.js}" type="text/javascript"></script>
+<script th:src="@{/js/SYSFrame.js}" type="text/javascript"></script>
+<script th:src="@{/js/layer/layer.js}" type="text/javascript"></script>
+<script th:src="@{/js/sysbox.js}" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script th:src="@{/js/html5shiv.js}" type="text/javascript"></script>
+<script th:src="@{/js/css3-mediaqueries.js}" type="text/javascript"></script>
+<![endif]-->
+
+
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.12.1/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.0/extensions/treegrid/bootstrap-table-treegrid.js"></script>
+<script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+
+<!-- 初始化表格 -->
+<script type="text/javascript">
+    $(function () {
+        initSysUserTable();
+        formValidator(); //初始画表单校验规则
+        datePickerInit();
+    })
+
+    var sys_user={
+        action:{
+            insert: '[[@{/sysuser/insert}]]',
+            deleteById : '[[@{/sysuser/deleteById}]]',
+            updateById : '[[@{/sysuser/updateById}]]',
+            queryAll : '[[@{/sysuser/queryAll}]]',
+            queryPage : '[[@{/sysuser/queryPage}]]',
+            export : '[[@{/sysuser/export}]]'
+        },
+        //新增
+        insertSysUser:function(){
+            $("#updateModal").modal('show');
+            $("#id").val('')
+            $("#moAccount").val('')
+            $("#moName").val('')
+            $("#moNickName").val('')
+            $("#password").val('')
+            $("#profilePic").val('')
+            $("#age").val('')
+            $("#phone").val('')
+            $("#email").val('')
+            $("#deleted").val('')
+            $("#createTime").val('')
+            $("#createAccount").val('')
+            $("#updateTime").val('')
+            $("#updateAccount").val('')
+        },
+        //编辑
+        editSysUser:function (row) {
+            $("#updateModal").modal('show');
+            $("#id").val(row.id)
+            $("#moAccount").val(row.moAccount)
+            $("#moName").val(row.moName)
+            $("#moNickName").val(row.moNickName)
+            $("#password").val(row.password)
+            $("#profilePic").val(row.profilePic)
+            $("#age").val(row.age)
+            $("#phone").val(row.phone)
+            $("#email").val(row.email)
+            $("#deleted").val(row.deleted)
+            $("#createTime").val(row.createTime)
+            $("#createAccount").val(row.createAccount)
+            $("#updateTime").val(row.updateTime)
+            $("#updateAccount").val(row.updateAccount)
+        },
+        //删除
+        deleteSysUser:function (row) {
+            if(confirm("是否确认操作！")){
+                $.ajax({
+                    type:"POST",
+                    url:sys_user.action.deleteById,
+                    data:{"id":row.id},
+                    success:function (res) {
+                        if(res.code==200){
+                            layer.msg(res.msg,{icon:1,time:2000});
+                            initSysUserTable();
+                        }else {
+                            layer.msg("删除失败！",{icon:2,time:2000});
+                        }
+                    },
+                    error:function () {
+                        layer.msg("删除失败！",{icon:2,time:2000});
+                    }
+                })
+            }
+
+        },
+        //保存
+        saveSysUser:function () {
+            var id=$("#id").val();
+            var url=id?sys_user.action.updateById:sys_user.action.insert;
+            // /*手动验证表单，当是普通按钮时。*/
+            $('#updateForm').data('bootstrapValidator').validate();//启用验证
+            var flag = $('#updateForm').data('bootstrapValidator').isValid()
+            if(flag){
+                $.ajax({
+                    type:"POST",
+                    url:url,
+                    data:$("#updateForm").serialize(),
+                    success:function (res) {
+                        if(res.code==200){
+                            layer.msg(res.msg,{icon:1,time:1000});
+                            $("#updateModal").modal('hide');
+                            initSysUserTable();
+                        }else {
+                            layer.msg(res.msg,{icon:2,time:1000});
+                        }
+                    },
+                    error:function () {
+                        layer.msg("操作失败！",{icon:2,time:1000});
+                    }
+                })
+            }
+        },
+        //查询
+        queryPage:function () {
+            //alert("ni")
+            $.ajax({
+                type:'GET',
+                url:sys_user.action.queryPage,
+                data:$("#searchBox").serialize(),
+                success:function (res) {
+                    $("#mo_core_sys_user").bootstrapTable("load",res);
+                },
+                error:function () {
+                    layer.msg("查询失败！",{icon:2,time:1000})
+                }
+            })
+        },
+        //导出文档
+        exportSysUser:function () {
+            $.ajax({
+                type:"GET",
+                url:sys_user.action.export,
+                success:function (res) {
+                    if(res.code==200){
+                        layer.msg(res.msg,{icon:1,time:1000});
+                    }
+                },
+                error:function () {
+                    layer.msg("操作失败！",{icon:1,time:1000});
+                }
+            })
+        }
+
+    }
+
+    /**
+     * 表单校验规则
+     */
+    function formValidator(){
+        $("#updateForm").bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                moAccount: {
+                    message: '唯一账号校验失败',
+                    validators: {
+                        notEmpty: {message: '唯一账号不能为空'},
+                        stringLength: {min: 1, max: 20, message: '唯一账号长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                moName: {
+                    message: '用户名校验失败',
+                    validators: {
+                        notEmpty: {message: '用户名不能为空'},
+                        stringLength: {min: 1, max: 20, message: '用户名长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                moNickName: {
+                    message: '昵称校验失败',
+                    validators: {
+                        notEmpty: {message: '昵称不能为空'},
+                        stringLength: {min: 1, max: 20, message: '昵称长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                password: {
+                    message: '密码校验失败',
+                    validators: {
+                        notEmpty: {message: '密码不能为空'},
+                        stringLength: {min: 1, max: 20, message: '密码长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                profilePic: {
+                    message: '头像校验失败',
+                    validators: {
+                        notEmpty: {message: '头像不能为空'},
+                        stringLength: {min: 1, max: 20, message: '头像长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                age: {
+                    message: '年龄校验失败',
+                    validators: {
+                        notEmpty: {message: '年龄不能为空'},
+                        stringLength: {min: 1, max: 20, message: '年龄长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                phone: {
+                    message: '电话校验失败',
+                    validators: {
+                        notEmpty: {message: '电话不能为空'},
+                        stringLength: {min: 1, max: 20, message: '电话长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                email: {
+                    message: '邮箱校验失败',
+                    validators: {
+                        notEmpty: {message: '邮箱不能为空'},
+                        stringLength: {min: 1, max: 20, message: '邮箱长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                deleted: {
+                    message: '是否删除校验失败',
+                    validators: {
+                        notEmpty: {message: '是否删除不能为空'},
+                        stringLength: {min: 1, max: 20, message: '是否删除长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                createTime: {
+                    message: '创建时间校验失败',
+                    validators: {
+                        notEmpty: {message: '创建时间不能为空'},
+                        stringLength: {min: 1, max: 20, message: '创建时间长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                createAccount: {
+                    message: '创建工号校验失败',
+                    validators: {
+                        notEmpty: {message: '创建工号不能为空'},
+                        stringLength: {min: 1, max: 20, message: '创建工号长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                updateTime: {
+                    message: '修改时间校验失败',
+                    validators: {
+                        notEmpty: {message: '修改时间不能为空'},
+                        stringLength: {min: 1, max: 20, message: '修改时间长度必须在1到20位之间'}
+                    }
+                }
+            },
+            fields: {
+                updateAccount: {
+                    message: '修改工号校验失败',
+                    validators: {
+                        notEmpty: {message: '修改工号不能为空'},
+                        stringLength: {min: 1, max: 20, message: '修改工号长度必须在1到20位之间'}
+                    }
+                }
+            },
+        })
+    }
+
+    function initSysUserTable() {
+        $table = $("#mo_core_sys_user1");
+        $table.bootstrapTable('destroy')
+        $table.bootstrapTable({
+            url: sys_user.action.queryPage,//请求路径
+            uniqueId: "id",
+            striped: true, //是否显示行间隔色
+            pageNumber: 1, //初始化加载第一页
+            pagination: true,//是否分页
+            sidePagination: 'server',//server:服务器端分页|client：前端分页
+            pageSize: 10,//单页记录数
+            pageList: [5, 10, 15, 20, 30],//可选择单页记录数
+            //showRefresh: true,//刷新按钮
+            queryParams: function (params) {//上传服务器的参数
+                var temp = {
+                    current: (params.offset / params.limit) + 1,// SQL语句起始索引
+                    size: params.limit, // 每页显示数量
+                    offset: params.offset + 1, // SQL语句起始索引
+                    //搜索框参数
+                    moAccount : $('#search-moAccount').val(),
+                    moName : $('#search-moName').val(),
+                    moNickName : $('#search-moNickName').val(),
+                    password : $('#search-password').val(),
+                    profilePic : $('#search-profilePic').val(),
+                    age : $('#search-age').val(),
+                    phone : $('#search-phone').val(),
+                    email : $('#search-email').val(),
+                    deleted : $('#search-deleted').val(),
+                    createAccount : $('#search-createAccount').val(),
+                    updateAccount : $('#search-updateAccount').val(),
+                };
+                return temp;
+            },
+            columns: [
+                {field: 'id', sortable: true},
+                {field: 'moAccount', sortable: true},
+                {field: 'moName', sortable: true},
+                {field: 'moNickName', sortable: true},
+                {field: 'password', sortable: true},
+                {field: 'profilePic', sortable: true},
+                {field: 'age', sortable: true},
+                {field: 'phone', sortable: true},
+                {field: 'email', sortable: true},
+                {field: 'deleted', sortable: true},
+                {field: 'createTime',sortable: true, formatter: 'dateFormat'},
+                {field: 'createAccount', sortable: true},
+                {field: 'updateTime',sortable: true, formatter: 'dateFormat'},
+                {field: 'updateAccount', sortable: true},
+                {field: '', align: 'center', events: operateEvents, formatter: 'operateFormatter'}
+            ]
+        });
+    }
+    //转换日期格式(时间戳转换为datetime格式)
+    function dateFormat(cellval) {
+        var dateVal = cellval + "";
+        if (cellval != null) {
+            var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+            var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+            var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+            return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
+        }
+    }
+    /* 操作转换器 */
+    function operateFormatter(value, row, index) {
+        return[
+            '<button type="button" class="RoleOfedit btn-small   btn-info" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>',
+            '<button type="button" class="RoleOfdelete btn-small   btn-danger" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>'
+        ].join('')
+    }
+
+    window.operateEvents={
+        'click .RoleOfedit':function (e, value, row, index) {
+            sys_user.editSysUser(row);
+        },
+        'click .RoleOfdelete':function (e, value, row, index) {
+            sys_user.deleteSysUser(row);
+        }
+    }
+
+    /* 日期控件初始化*/
+    function datePickerInit(){
+        // $('#createTime').datetimepicker({
+        //     format: 'YYYY-MM-DD hh:mm',
+        //     //locale: moment.locale('zh-cn')
+        // });
+        // $('#updateTime').datetimepicker({
+        //     format: 'YYYY-MM-DD hh:mm',
+        //     //locale: moment.locale('zh-cn')
+        // });
+        // $('#search-createTime').datetimepicker({
+        //     format: 'YYYY-MM-DD hh:mm',
+        //     //locale: moment.locale('zh-cn')
+        // });
+        // $('#search-updateTime').datetimepicker({
+        //     format: 'YYYY-MM-DD hh:mm',
+        //     //locale: moment.locale('zh-cn')
+        // });
+
+    }
+</script>
+</html>
