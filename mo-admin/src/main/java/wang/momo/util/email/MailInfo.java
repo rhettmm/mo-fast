@@ -20,7 +20,7 @@ public class MailInfo {
     private String from;
     private String to;
     private String subject;
-    private boolean flag;           //是否为Html内容
+    private boolean htmlFlag;           //是否为Html内容
     private String text;
     private String inlineName;
     private File inline;            //内嵌图片

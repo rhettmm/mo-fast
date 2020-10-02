@@ -13,21 +13,17 @@ import javax.mail.internet.MimeMessage;
  * @version 1.0
  * @date 2020/9/19 0:50
  */
-@Component
 public class EmailUtil {
-    @Autowired
-    private JavaMailSenderImpl mailSender;
-
     /**
      * 发送邮件
      */
-    public void sendEmail(MailInfo mail) throws MessagingException {
+    public static void sendEmail(JavaMailSenderImpl mailSender,MailInfo mail) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
         mimeMessageHelper.setFrom(mail.getFrom());
         mimeMessageHelper.setTo(mail.getTo());
         mimeMessageHelper.setSubject(mail.getSubject());
-        mimeMessageHelper.setText(mail.getText(),mail.isFlag());
+        mimeMessageHelper.setText(mail.getText(),mail.isHtmlFlag());
         if(mail.getInline()!=null)
             mimeMessageHelper.addInline(mail.getInlineName(),mail.getInline());
         if(mail.getAttachment()!=null)
