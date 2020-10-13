@@ -31,6 +31,11 @@ spring:
 #配置静态页面
   resources:
     static-locations: /templates/
+  mvc:
+    async:
+      request-timeout: 5000  #配置ajax请求超时时间
+  thymeleaf:
+    prefix: classpath:./templates/
 
 
 mo:

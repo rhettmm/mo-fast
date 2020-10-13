@@ -11,4 +11,8 @@ public class MoConst {
     public static String CACHE_PREFIX="mo:admin:";
 
     public static String LOGIN_TOKEN="login:token:";
+
+    public static String LOGIN_ACCOUNT="login:account:";
+
+    public static String API_TOKEN="api:token:";
 }

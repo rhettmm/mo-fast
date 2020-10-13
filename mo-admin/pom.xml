@@ -100,6 +100,14 @@
         </dependency>
 
 
+        <!-- 密码加解密 -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+
 
     </dependencies>
 
@@ -133,7 +141,50 @@
                     <fork>true</fork>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <!--使用默认的变量分割符即${}-->
+                <configuration>
+                    <useDefaultDelimiters>true</useDefaultDelimiters>
+                </configuration>
+            </plugin>
         </plugins>
+
+        <resources>
+            <!-- maven 打包文件！ -->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>config/**/*.*</exclude>
+                </excludes>
+                <!--<includes>
+                    <include>application.yml</include>
+                    <include>*.*</include>
+                    <include>mapper/**/*.*</include>
+                    <include>static/**/*.*</include>
+                    <include>templates/**/*.*</include>
+                </includes>-->
+                <!-- 启用过滤，过滤文件中的变量 -->
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources/config/${spring.profiles.active}</directory>
+                <includes>
+                    <include>**/*.yml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
     </build>
+
+
 
 </project>

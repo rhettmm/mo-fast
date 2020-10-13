@@ -55,7 +55,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addViewControllers(ViewControllerRegistry registry) {
         super.addViewControllers(registry);
-        registry.addViewController("/").setViewName("/index");
+        registry.addViewController("/").setViewName("index");
     }
 
     /**
@@ -72,7 +72,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
                 SerializerFeature.WriteNullListAsEmpty,
                 SerializerFeature.WriteNullBooleanAsFalse,
                 SerializerFeature.WriteNullStringAsEmpty,
-                SerializerFeature.WriteNullNumberAsZero,
+                //SerializerFeature.WriteNullNumberAsZero,
                 SerializerFeature.WriteBigDecimalAsPlain,
                 SerializerFeature.DisableCircularReferenceDetect   //禁止循环引用
         );

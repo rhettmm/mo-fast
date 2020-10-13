@@ -2,9 +2,12 @@ package wang.momo.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.thymeleaf.expression.Strings;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author rhettmm
@@ -14,6 +17,11 @@ import java.util.Date;
 public class StringUtil {
 
     private static ObjectMapper objectMapper;
+    private static Pattern linePattern=Pattern.compile("_(\\w)");
+    private static Pattern humpPattern=Pattern.compile("[A-Z]");
+
+
+
     static {
         objectMapper=new ObjectMapper();
     }
@@ -70,5 +78,35 @@ public class StringUtil {
             e.printStackTrace();
         }
         return clazz.cast(object);
+    }
+
+    /**
+     * 驼峰转下划线
+     * @param str
+     * @return
+     */
+    public static String HumpToline(String str){
+        Matcher matcher = humpPattern.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()){
+            matcher.appendReplacement(sb,"_"+matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+    /**
+     * 下划线转驼峰
+     * @param str
+     * @return
+     */
+    public static  String lineToHump(String str){
+        Matcher matcher = linePattern.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()){
+            matcher.appendReplacement(sb,matcher.group(1).toUpperCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
     }
 }

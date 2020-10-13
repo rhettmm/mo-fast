@@ -3,12 +3,10 @@ package wang.momo.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import wang.momo.common.MoConst;
-import wang.momo.moadmin.entity.SysUser;
 import wang.momo.util.cache.CacheUtil;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -21,40 +19,56 @@ import javax.servlet.http.HttpServletResponse;
 public class RequestUtil {
     @Autowired
     private CacheUtil cacheUtil;
-    /**
-     * 根据请求查询当前登录用户
-     * @param request
-     * @return
-     */
-    public SysUser getLoginUser(HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        SysUser user=null;
-        if(cookies!=null&&cookies.length>0){
-            for (Cookie cookie : cookies) {
-                if(cookie.getName().equals(MoConst.MO_ADMIN_AUTH)){
-                    String cookieValue = cookie.getValue();
-                    user= (SysUser) cacheUtil.getCache(MoConst.CACHE_PREFIX + MoConst.LOGIN_TOKEN + cookieValue);
-                }
-            }
-        }
-        return user;
-    }
 
     /**
      * 退出登陆后，删除缓存
      * @param request
      */
-    public void delLoginCache(HttpServletRequest request, HttpServletResponse response){
+    public void delLoginCache(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
-        SysUser user=null;
-        for (Cookie cookie : cookies) {
-            if(cookie.getName().equals(MoConst.MO_ADMIN_AUTH)){
-                String cookieValue = cookie.getValue();
-                cacheUtil.delCache(MoConst.CACHE_PREFIX + MoConst.LOGIN_TOKEN + cookieValue);
+        if(cookies!=null && cookies.length>0){
+            for (Cookie cookie : cookies) {
+                if(cookie.getName().equals(MoConst.MO_ADMIN_AUTH)){
+                    String cookieValue = cookie.getValue();
+                    cacheUtil.delCache(MoConst.CACHE_PREFIX + MoConst.LOGIN_ACCOUNT + cookieValue);
+                }
             }
         }
-
     }
+
+    /**
+     * 获取登录用户账号
+     * @param request
+     * @return
+     */
+    public String getLoginAccount(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        String account=null;
+        if(cookies!=null&&cookies.length>0){
+            for (Cookie cookie : cookies) {
+                if(cookie.getName().equals(MoConst.MO_ADMIN_AUTH)){
+                    String cookieValue = cookie.getValue();
+                    account= (String) cacheUtil.getCache(MoConst.CACHE_PREFIX + MoConst.LOGIN_ACCOUNT + cookieValue);
+                }
+            }
+        }
+        return  account;
+    }
+
+    /**
+     * 保存登录用户ID
+     */
+    public void saveLoginAccount(String key,String account){
+        cacheUtil.setCache(MoConst.CACHE_PREFIX+MoConst.LOGIN_ACCOUNT+key,account);
+    }
+
+    /**
+     * 保存登录用户ID
+     */
+    public void saveLoginAccount(String key,String account,long timeOut){
+        cacheUtil.setCache(MoConst.CACHE_PREFIX+MoConst.LOGIN_ACCOUNT+key,account,timeOut);
+    }
+
 
     /**
      * 判断请求是否未ajax请求

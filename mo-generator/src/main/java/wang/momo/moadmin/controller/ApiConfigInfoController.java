@@ -1,7 +1,7 @@
-package ${packages}.controller;
+package wang.momo.moadmin.controller;
 
-import ${packages}.entity.${className};
-import ${packages}.service.${className}Service;
+import wang.momo.moadmin.entity.ApiConfigInfo;
+import wang.momo.moadmin.service.ApiConfigInfoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,16 +15,17 @@ import wang.momo.util.RequestUtil;
 import javax.servlet.http.HttpServletRequest;
 
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 @RestController
-@RequestMapping("${classNameLower}")
-public class ${className}Controller {
+@RequestMapping("apiconfiginfo")
+public class ApiConfigInfoController {
     @Autowired
-    private ${className}Service ${classNameFirstLower}Service;
+    private ApiConfigInfoService apiConfigInfoService;
     @Autowired
     private RequestUtil requestUtil;
 
@@ -32,46 +33,46 @@ public class ${className}Controller {
     @GetMapping("/view")
     public ModelAndView view(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/${htmlpath}/${htmlName}");
+        modelAndView.setViewName("/core/api_config_info");
         return modelAndView;
     }
 
     @PostMapping("/insert")
-    public ResultData<String> insert(${className} ${classNameFirstLower},HttpServletRequest request){
+    public ResultData<String> insert(ApiConfigInfo apiConfigInfo,HttpServletRequest request){
         String account = requestUtil.getLoginAccount(request);
-        ${classNameFirstLower}.setCreateAccount(account);
-        ${classNameFirstLower}.setUpdateAccount(account);
-        ${classNameFirstLower}Service.insert( ${classNameFirstLower});
+        apiConfigInfo.setCreateAccount(account);
+        apiConfigInfo.setUpdateAccount(account);
+        apiConfigInfoService.insert( apiConfigInfo);
         return new ResultData<String>().setCode(ResultData.CodeList.OK).setMsg("添加成功！");
     }
 
 
     @PostMapping("/deleteById")
     public ResultData<String> deleteById(int id){
-        ${classNameFirstLower}Service.deleteById(id);
+        apiConfigInfoService.deleteById(id);
         return new ResultData<String>().setCode(ResultData.CodeList.OK).setMsg("删除成功！");
     }
 
 
     @PostMapping("/updateById")
-    public ResultData<String> updateById(${className} ${classNameFirstLower},HttpServletRequest request){
+    public ResultData<String> updateById(ApiConfigInfo apiConfigInfo,HttpServletRequest request){
         String account = requestUtil.getLoginAccount(request);
-        ${classNameFirstLower}.setUpdateAccount(account);
-        ${classNameFirstLower}Service.updateById( ${classNameFirstLower});
+        apiConfigInfo.setUpdateAccount(account);
+        apiConfigInfoService.updateById( apiConfigInfo);
         return new ResultData<String>().setCode(ResultData.CodeList.OK).setMsg("更新成功！");
     }
 
 
     @GetMapping("/queryAll")
-    public ResultData<List<${className}>> queryAll(${className} ${classNameFirstLower}){
-        List<${className}>  ${classNameFirstLower}List = ${classNameFirstLower}Service.queryAll( ${classNameFirstLower});
-        return new ResultData<List<${className}>>().setCode(ResultData.CodeList.OK).setMsg("添加成功！").setData(${classNameFirstLower}List);
+    public ResultData<List<ApiConfigInfo>> queryAll(ApiConfigInfo apiConfigInfo){
+        List<ApiConfigInfo>  apiConfigInfoList = apiConfigInfoService.queryAll( apiConfigInfo);
+        return new ResultData<List<ApiConfigInfo>>().setCode(ResultData.CodeList.OK).setMsg("添加成功！").setData(apiConfigInfoList);
     }
 
 
     @GetMapping("/queryPage")
-    public Map<String,Object> queryPage(Page<${className}> page,${className} ${classNameFirstLower}){
-        ${classNameFirstLower}Service.queryPage(page,${classNameFirstLower});
+    public Map<String,Object> queryPage(Page<ApiConfigInfo> page,ApiConfigInfo apiConfigInfo){
+        apiConfigInfoService.queryPage(page,apiConfigInfo);
         HashMap<String, Object> map = new HashMap<>();
         map.put("total",page.getTotal());
         map.put("rows",page.getRecords());

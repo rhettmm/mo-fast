@@ -17,7 +17,7 @@ spring:
 mo-generator:
   target:
     #目标表的，多个表格可用逗号分隔
-    tables: mo_core_sys_user
+    tables: mo_core_api_config_info
     #类名去除表格前缀，不用去除为空
     remove-prefix: mo_core_
     #包名

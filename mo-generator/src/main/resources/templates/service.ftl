@@ -3,10 +3,11 @@ package ${packages}.service;
 
 import ${packages}.entity.${className};
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 
-public interface ${className}Service {
+public interface I${className}Service {
 
     int insert(${className} ${classNameFirstLower});
 
